@@ -1,0 +1,50 @@
+//#include <stdio.h>
+//#include <stdlib.h>
+#include <iostream>
+#define VERBOSE 1
+using namespace std;
+int main()
+{
+	int totient, e, a1, a0, b0, b1, totient_new, a1_new, a0_new, g, original1, original2;
+
+	totient = a0 = e = b0 = totient_new = a1_new = a0_new = g = 0;
+	a1 = b1 = 1;
+	cout << "Input first number: ";
+	cin >> totient;
+	original1 = totient;
+	cout << "Input second number: ";
+	cin >> e;
+	original2 = e;
+
+	g = totient / e;
+	totient_new = totient % e;
+	a1_new = a1 - (b0 * g);
+	a0_new = a0 - (b1 * g);
+	cout << totient << " 1  0" << endl << e << "  0  1" << endl;
+	cout << totient_new << "  " << a1_new << "  " << a0_new << "  " << g << endl;
+	while (totient_new > 1)
+	{
+		totient = e;
+		e = totient_new;
+		a1 = b0;
+		a0 = b1;
+		b0 = a1_new;
+		b1 = a0_new;
+		if (!VERBOSE)
+			cout << totient << " % " << e << " || " << a1 << "-(" << b0 << "*" << g << ")" << " || " << a0 << "-(" << b1 << "*" << g << ")" << " || " << g << endl;
+		g = totient / e;
+		totient_new = totient % e;
+		a1_new = a1 - (b0 * g);
+		a0_new = a0 - (b1 * g);
+		if (VERBOSE)
+			cout << totient_new << " = " << totient << " % " << e << " || " << a1_new << " =  " << a1 << "-(" << b0 << "*" << g << ")" << " || " << a0_new << " = " << a0 << "-(" << b1 << "*" << g << ")" << " || " << g << " = " << totient << "/" << e << endl;
+	}
+	int answer = a0_new;
+	if (answer < 0)
+	{
+		cout << "Negative answer: " << answer << " + " << original1 << endl;
+		answer += original1;
+	}
+	cout << "Inverse of " << original2 << " with respect to " << original1 << " is " << answer << endl;
+
+}
